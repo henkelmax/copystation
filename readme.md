@@ -18,6 +18,8 @@ Argument | Description | Default
 `-h`, `--help ` | Show help and exit. | -
 `-p PATH`, `--path PATH` | The path to the files that are getting copied | `./data/`
 `-f FOLDER_NAME`, `--folder-name FOLDER_NAME` | The name of the folder that the files are copied to | `data`
+`-s PIN`, `--success-led-pin PIN` | The pin ID of the success LED | `17`
+`-e PIN`, `--error-led-pin PIN` | The pin ID of the error LED | `18`
 
 ### Examples
 
