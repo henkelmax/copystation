@@ -1,0 +1,19 @@
+{
+  "name": "usb-copy",
+  "version": "1.0.0",
+  "description": "Copies files to USB drives",
+  "main": "index.js",
+  "author": "Max Henkel",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "argparse": "^1.0.10",
+    "drivelist": "^8.0.6",
+    "fs-extra": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
