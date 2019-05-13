@@ -7,6 +7,48 @@
 npm install --global --production windows-build-tools
 ```
 
+### For Raspbian
+
+Install usbmount
+``` sh
+sudo apt-get install -y usbmount
+```
+
+Edit the file `usbmount.conf`
+
+``` sh
+sudo nano /etc/usbmount/usbmount.conf
+```
+
+and replace the line
+
+``` sh
+FS_MOUNTOPTIONS=""
+```
+
+with
+
+``` sh
+FS_MOUNTOPTIONS="- fstype = vfat, gid = users, dmask = 0007, fmask = 0117"
+```
+
+and reboot
+
+``` sh
+sudo reboot
+```
+
+
+[Source](http://www.kalitut.com/2017/11/mount-unmount-usb-usbmount.html)
+
+<!-- https://raspberrypi.stackexchange.com/questions/41959/automount-various-usb-stick-file-systems-on-jessie-lite -->
+
+#### NTFS support
+
+``` sh
+sudo apt-get install -y ntfs-3g
+```
+
 ## Usage
 
 ``` sh
