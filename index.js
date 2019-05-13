@@ -46,13 +46,19 @@ onMount(async drive => {
     return;
   }
   if (drive.mountpoints.length <= 0) {
-    console.log("No mountpoints - mounting");
-    try {
-      await mount(drive.device, MOUNTPOINT);
-      drive.mountpoints.push({ path: MOUNTPOINT });
-      console.log(`Mounted to ${MOUNTPOINT}`);
-    } catch (err) {
-      console.error("Mounting failed");
+    if (process.platform === "linux") {
+      console.log("No mountpoints - mounting");
+      try {
+        await mount(drive.device, MOUNTPOINT);
+        drive.mountpoints.push({ path: MOUNTPOINT });
+        console.log(`Mounted to ${MOUNTPOINT}`);
+      } catch (err) {
+        console.error("Mounting failed");
+        showErrorLED();
+        return;
+      }
+    } else {
+      console.error("No mountpoints");
       showErrorLED();
       return;
     }
