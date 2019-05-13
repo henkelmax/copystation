@@ -7,41 +7,27 @@
 npm install --global --production windows-build-tools
 ```
 
-### For Raspbian
+### For Linux
 
-Install usbmount
-``` sh
-sudo apt-get install -y usbmount
+#### Install node
+
+```sh
+sudo apt-get install -y curl software-properties-common
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+
+sudo apt-get install -y nodejs
+
+sudo npm install --global yarn
 ```
 
-Edit the file `usbmount.conf`
+#### Install pm2
 
 ``` sh
-sudo nano /etc/usbmount/usbmount.conf
+sudo yarn global add pm2
+
+# To run pm2 on startup
+sudo pm2 startup
 ```
-
-and replace the line
-
-``` sh
-FS_MOUNTOPTIONS=""
-```
-
-with
-
-``` sh
-FS_MOUNTOPTIONS="- fstype = vfat, gid = users, dmask = 0007, fmask = 0117"
-```
-
-and reboot
-
-``` sh
-sudo reboot
-```
-
-
-[Source](http://www.kalitut.com/2017/11/mount-unmount-usb-usbmount.html)
-
-<!-- https://raspberrypi.stackexchange.com/questions/41959/automount-various-usb-stick-file-systems-on-jessie-lite -->
 
 #### NTFS support
 
@@ -75,4 +61,10 @@ node index.js -p "./data" -f "data"
 
 ``` sh
 yarn dev --path "./data" --folder-name "data"
+```
+
+## Running with pm2
+
+``` sh
+sudo pm2 start index.js -- --path "./data" --folder-name "data"
 ```
