@@ -12,10 +12,13 @@ npm install --global --production windows-build-tools
 #### Install node
 
 ```sh
+sudo apt-get update -y
+
 sudo apt-get install -y curl software-properties-common
+
 curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
 
-sudo apt-get install -y nodejs
+sudo apt-get install -y nodejs npm
 
 sudo npm install --global yarn
 ```

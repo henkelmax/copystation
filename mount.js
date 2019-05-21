@@ -7,7 +7,7 @@ module.exports.mount = (device, mountpoint) => {
     let dev = path.normalize(device);
     let partitions = await getPartitions(dev);
 
-    if (partitions.length <= 0) {
+    if (!partitions || partitions.length <= 0) {
       reject(`The device ${dev} has no partitions`);
       return;
     }
