@@ -5,7 +5,14 @@ const drivelist = require("drivelist");
 module.exports.mount = (device, mountpoint) => {
   return new Promise(async (resolve, reject) => {
     let dev = path.normalize(device);
-    let partitions = await getPartitions(dev);
+    let partitions;
+
+    try {
+      partitions = await getPartitions(dev);
+    } catch (err) {
+      reject(err);
+      return;
+    }
 
     if (!partitions || partitions.length <= 0) {
       reject(`The device ${dev} has no partitions`);
