@@ -91,7 +91,7 @@ function getPartitions(device) {
           if (element.children) {
             resolve(element.children);
           } else {
-            resolve([element.name]);
+            resolve([element]);
           }
           return;
         }
