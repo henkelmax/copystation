@@ -53,7 +53,7 @@ onMount(async drive => {
         drive.mountpoints.push({ path: MOUNTPOINT });
         console.log(`Mounted to ${MOUNTPOINT}`);
       } catch (err) {
-        console.error("Mounting failed");
+        console.error(`Mounting failed: ${err}`);
         showErrorLED();
         return;
       }

@@ -88,7 +88,11 @@ function getPartitions(device) {
       let data = JSON.parse(stdout);
       data.blockdevices.forEach(element => {
         if (element.name === device) {
-          resolve(element.children);
+          if (element.children) {
+            resolve(element.children);
+          } else {
+            resolve([element.name]);
+          }
           return;
         }
       });
