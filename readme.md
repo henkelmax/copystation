@@ -23,15 +23,6 @@ sudo apt-get install -y nodejs npm
 sudo npm install --global yarn
 ```
 
-#### Install pm2
-
-``` sh
-sudo yarn global add pm2
-
-# To run pm2 on startup
-sudo pm2 startup
-```
-
 #### NTFS support
 
 ``` sh
@@ -50,6 +41,7 @@ Argument | Description | Default
 `-p PATH`, `--path PATH` | The path to the files that are getting copied | `./data/`
 `-f FOLDER_NAME`, `--folder-name FOLDER_NAME` | The name of the folder that the files are copied to | `data`
 `-s PIN`, `--success-led-pin PIN` | The pin ID of the success LED | `17`
+`-P PIN`, `--progress-led-pin PIN` | The pin ID of the progress LED | `27`
 `-e PIN`, `--error-led-pin PIN` | The pin ID of the error LED | `18`
 
 ### Examples
@@ -66,9 +58,27 @@ node index.js -p "./data" -f "data"
 yarn dev --path "./data" --folder-name "data"
 ```
 
-## Running with pm2
+## Autostart with systemd
+
+Create a file `/etc/systemd/system/usb-copy.service`
+
+``` service
+[Unit]
+Description=USB Copy
+After=network.target
+
+[Service]
+User=root
+Environment=
+WorkingDirectory=/usb-copy/
+ExecStart=/usr/bin/node index.js --path "./data" --folder-name "data"
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ``` sh
-sudo pm2 start index.js -- --path "./data" --folder-name "data"
-sudo pm2 save
+sudo systemctl daemon-reload
+sudo systemctl enable usb-copy
+sudo systemctl start usb-copy
 ```

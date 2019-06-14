@@ -18,7 +18,9 @@ parser.addArgument(["-f", "--folder-name"], {
 parser.addArgument(["-s", "--success-led-pin"], {
   help: "The pin ID of the success LED"
 });
-
+parser.addArgument(["-P", "--progress-led-pin"], {
+  help: "The pin ID of the progress LED"
+});
 parser.addArgument(["-e", "--error-led-pin"], {
   help: "The pin ID of the error LED"
 });
@@ -28,14 +30,17 @@ const args = parser.parseArgs();
 const DATA_PATH = args.path || "./data/";
 const FOLDER_NAME = args.folder_name || "data";
 const SUCCESS_LED_PIN = args.success_led_pin || 17;
+const PROGRESS_LED_PIN = args.progress_led_pin || 27;
 const ERROR_LED_PIN = args.error_led_pin || 18;
 const LED_BLINK_TIME = 1000;
 const MOUNTPOINT = "/media/usbstick";
 
 let ledSuccess;
+let ledProgress;
 let ledError;
 try {
   ledSuccess = new Gpio(SUCCESS_LED_PIN, "out");
+  ledProgress = new Gpio(PROGRESS_LED_PIN, "out");
   ledError = new Gpio(ERROR_LED_PIN, "out");
 } catch (err) {
   console.error("GPIO pins not available");
@@ -45,6 +50,7 @@ onMount(async drive => {
   if (!drive.isUSB) {
     return;
   }
+  setProgressLED(true);
   if (drive.mountpoints.length <= 0) {
     if (process.platform === "linux") {
       console.log("No mountpoints - mounting");
@@ -54,22 +60,25 @@ onMount(async drive => {
         console.log(`Mounted to ${MOUNTPOINT}`);
       } catch (err) {
         console.error(`Mounting failed: ${err}`);
+        setProgressLED(false);
         showErrorLED();
         return;
       }
     } else {
       console.error("No mountpoints");
+      setProgressLED(false);
       showErrorLED();
       return;
     }
   }
   console.log(`Drive '${drive.mountpoints[0].path}' connected`);
+  let success;
   try {
     await copyFiles(drive.mountpoints[0].path);
-    showSuccessLED();
+    success = true;
   } catch (err) {
     console.error(err);
-    showErrorLED();
+    success = false;
   }
 
   unmount(MOUNTPOINT)
@@ -79,9 +88,19 @@ onMount(async drive => {
     .catch(err => {
       console.error(`Failed to unmount drive: '${err}'`);
     });
+
+  if (success) {
+    setProgressLED(false);
+    showSuccessLED();
+  } else {
+    setProgressLED(false);
+    showErrorLED();
+  }
 });
 
+// Let all LEDs blink on startup
 showSuccessLED();
+showProgressLED();
 showErrorLED();
 
 console.log(`Waiting for drives to be connected`);
@@ -138,4 +157,23 @@ function showErrorLED() {
   setTimeout(() => {
     ledError.writeSync(0);
   }, LED_BLINK_TIME);
+}
+
+function showProgressLED() {
+  if (!ledProgress) {
+    return;
+  }
+
+  ledProgress.writeSync(1);
+  setTimeout(() => {
+    ledProgress.writeSync(0);
+  }, LED_BLINK_TIME);
+}
+
+function setProgressLED(enabled) {
+  if (!ledProgress) {
+    return;
+  }
+
+  ledProgress.writeSync(enabled ? 1 : 0);
 }
