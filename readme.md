@@ -70,4 +70,5 @@ yarn dev --path "./data" --folder-name "data"
 
 ``` sh
 sudo pm2 start index.js -- --path "./data" --folder-name "data"
+sudo pm2 save
 ```

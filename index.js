@@ -81,6 +81,9 @@ onMount(async drive => {
     });
 });
 
+showSuccessLED();
+showErrorLED();
+
 console.log(`Waiting for drives to be connected`);
 
 function copyFiles(copyPath) {
