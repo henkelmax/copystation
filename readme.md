@@ -1,8 +1,13 @@
-# USB Copy
+# USB Copy Station
+
+Turns your Raspberry PI into a copy station.
+
+This also works for Windows and Linux, but the status LEDs will only work with the Raspberry PIs [GPIO](https://www.raspberrypi.org/documentation/usage/gpio/) pins.
 
 ## Prerequisites
 
 ### For Windows
+
 ``` cmd
 npm install --global --production windows-build-tools
 ```
@@ -37,7 +42,7 @@ node index.js [-h] [-p PATH] [-f FOLDER_NAME]
 
 Argument | Description | Default
 --- | --- | ---
-`-h`, `--help ` | Show help and exit. | -
+`-h`, `--help` | Show help and exit. | -
 `-p PATH`, `--path PATH` | The path to the files that are getting copied | `./data/`
 `-f FOLDER_NAME`, `--folder-name FOLDER_NAME` | The name of the folder that the files are copied to | `data`
 `-s PIN`, `--success-led-pin PIN` | The pin ID of the success LED | `17`
