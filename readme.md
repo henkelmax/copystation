@@ -1,4 +1,4 @@
-# USB Copy Station
+# USB Copy Station ![GitHub issues](https://img.shields.io/github/issues-raw/henkelmax/copystation) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/henkelmax/copystation)
 
 Turns your Raspberry PI into a copy station.
 
