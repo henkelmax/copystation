@@ -8,13 +8,25 @@ This also works for Windows and Linux, but the status LEDs will only work with t
 
 ### For Windows
 
+Download and install [Node.js](https://nodejs.org/).
+
+Download and install [Yarn](https://classic.yarnpkg.com/en/docs/install/).
+
+Install the Windows-Build-Tools:
+
 ``` cmd
 npm install --global --production windows-build-tools
 ```
 
+In the project directory run:
+
+``` cmd
+yarn install
+```
+
 ### For Linux
 
-#### Install node
+Install Node.js and Yarn:
 
 ```sh
 sudo apt-get update -y
@@ -28,10 +40,16 @@ sudo apt-get install -y nodejs npm
 sudo npm install --global yarn
 ```
 
-#### NTFS support
+For NTFS support run:
 
 ``` sh
 sudo apt-get install -y ntfs-3g
+```
+
+In the project directory run:
+
+``` cmd
+yarn install
 ```
 
 ## Usage
