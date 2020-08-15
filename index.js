@@ -6,26 +6,26 @@ const onMount = require("./drive.js");
 const { mount, unmount } = require("./mount.js");
 
 const parser = new ArgumentParser({
-  addHelp: true
+  add_help: true
 });
 
-parser.addArgument(["-p", "--path"], {
+parser.add_argument("-p", "--path", {
   help: "The path to the files that are getting copied"
 });
-parser.addArgument(["-f", "--folder-name"], {
+parser.add_argument("-f", "--folder-name", {
   help: "The name of the folder that the files are copied to"
 });
-parser.addArgument(["-s", "--success-led-pin"], {
+parser.add_argument("-s", "--success-led-pin", {
   help: "The pin ID of the success LED"
 });
-parser.addArgument(["-P", "--progress-led-pin"], {
+parser.add_argument("-P", "--progress-led-pin", {
   help: "The pin ID of the progress LED"
 });
-parser.addArgument(["-e", "--error-led-pin"], {
+parser.add_argument("-e", "--error-led-pin", {
   help: "The pin ID of the error LED"
 });
 
-const args = parser.parseArgs();
+const args = parser.parse_args();
 
 const DATA_PATH = args.path || "./data/";
 const FOLDER_NAME = args.folder_name || "data";
@@ -81,13 +81,15 @@ onMount(async drive => {
     success = false;
   }
 
-  unmount(MOUNTPOINT)
-    .then(() => {
-      console.log("Unmounted drive");
-    })
-    .catch(err => {
-      console.error(`Failed to unmount drive: '${err}'`);
-    });
+  if (process.platform === "linux") {
+    unmount(MOUNTPOINT)
+      .then(() => {
+        console.log("Unmounted drive");
+      })
+      .catch(err => {
+        console.error(`Failed to unmount drive: '${err}'`);
+      });
+  }
 
   if (success) {
     setProgressLED(false);
