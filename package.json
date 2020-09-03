@@ -9,7 +9,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "argparse": "^2.0.0",
+    "argparse": "^2.0.1",
     "drivelist": "^9.1.0",
     "fs-extra": "^9.0.1",
     "onoff": "^6.0.0"
